@@ -33,5 +33,29 @@ We're gonna compare with several models
 
 We conduct model performance test using Gemini, Qwen, llama.
 
-And then we made Comparison's Table like the below
+And then we compared the below sequence
+
+1. Create a Set of Correct Answers
+
+2. From Each model's output, we calculate the distance between Correct Answers and Model's Outputs
+
+3. Sort by The high similarity score
+
+4. Rank the Best score and Models
+
+
+# Run
+
+We can run very easily
+
+But, It is possible to run on GCP Vertax AI.
+
+So, you should prepare the environment for that
+
+python Gemini_OCR_model.py
+python Gemini_OCR_model_multi_turns.py
+
+
+
+
 
