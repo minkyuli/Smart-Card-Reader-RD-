@@ -12,3 +12,5 @@ we can store name card's infomation easily using AI technology.
 Furthermore, we can obtain more information such as context information, location, circumstance, etc
 
 In conclusions, we aim to develop the Smart AI system to collect name cards and to manage name cards 
+
+
