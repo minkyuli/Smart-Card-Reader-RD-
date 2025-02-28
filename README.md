@@ -14,3 +14,13 @@ Furthermore, we can obtain more information such as context information, locatio
 In conclusions, we aim to develop the Smart AI system to collect name cards and to manage name cards 
 
 
+# Spec
+
+Basic Environment : GCP Vertax AI Workbench
+Model : GenerativeModel("gemini-pro-vision") # gemini-2.0-flash is less then gemini-pro-vision in term of multimodel
+
+Benchmarking : ollama, qwen
+Reference) https://github.com/ella-hong22/smart_card_test
+
+
+# Performance
