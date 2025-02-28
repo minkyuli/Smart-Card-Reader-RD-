@@ -26,3 +26,10 @@ Reference) https://github.com/ella-hong22/smart_card_test
 
 
 # Performance
+
+In this section, 
+We're gonna compare with several models
+We conduct model performance test using Gemini, Qwen, llama.
+
+And then we made Comparison's Table like the below
+
