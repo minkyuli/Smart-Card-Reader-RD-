@@ -53,6 +53,7 @@ But, It is possible to run on GCP Vertax AI.
 So, you should prepare the environment for that
 
 python Gemini_OCR_model.py
+
 python Gemini_OCR_model_multi_turns.py
 
 
