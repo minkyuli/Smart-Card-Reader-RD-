@@ -1,4 +1,4 @@
-# Smart-Card-Reader(RD)
+# Smart-Card-Reader(SCR)
 
 This is for All Business people.
 
