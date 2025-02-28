@@ -17,9 +17,11 @@ In conclusions, we aim to develop the Smart AI system to collect name cards and 
 # Spec
 
 Basic Environment : GCP Vertax AI Workbench
+
 Model : GenerativeModel("gemini-pro-vision") # gemini-2.0-flash is less then gemini-pro-vision in term of multimodel
 
-Benchmarking : ollama, qwen
+Benchmarking Model : ollama, qwen
+
 Reference) https://github.com/ella-hong22/smart_card_test
 
 
