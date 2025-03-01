@@ -43,6 +43,15 @@ And then we compared the below sequence
 
 4. Rank the Best score and Models
 
+# Results
+
+pd_score.mean()
+
+gemini     0.679097
+qwen_3B    0.839706
+qwen_7B    0.774510
+dtype: float32
+
 
 # Run
 
