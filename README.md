@@ -45,13 +45,9 @@ And then we compared the below sequence
 
 # Results
 
+python model_comparison.py
+
 pd_score.mean()
-
-gemini     0.679097
-
-qwen_3B    0.839706
-
-qwen_7B    0.774510
 
 
 # Run
