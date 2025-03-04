@@ -29,11 +29,11 @@ Reference) https://github.com/ella-hong22/smart_card_test
 
 In this section, 
 
-We're gonna compare with several models
+We compared with several Benchmark models
 
-We conduct model performance test using Gemini, Qwen, llama.
+We conducted model performance test using Gemini, Qwen, llama.
 
-And then we compared the below sequence
+And then we compared model's performance by the below sequence
 
 1. Create a Set of Correct Answers
 
