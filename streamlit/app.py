@@ -1,5 +1,3 @@
-
-
 import os
 import json
 import tempfile
@@ -7,10 +5,8 @@ import streamlit as st
 from pathlib import Path
 from PIL import Image
 # from dotenv import load_dotenv
-# from google import genai  # 최신 Google Gemini SDK 사용
-# from google.genai import types
-import vertexai
-from vertexai.generative_models import GenerativeModel, Part, GenerationConfig
+from google import genai  # 최신 Google Gemini SDK 사용
+from google.genai import types
 
 # 페이지 설정
 st.set_page_config(
@@ -21,17 +17,12 @@ st.set_page_config(
 
 # 환경 변수 로드
 # load_dotenv()
-# api_key = os.getenv("GOOGLE_API_KEY")
-# if not api_key:
-#     raise ValueError("GOOGLE_API_KEY가 .env 파일에 정의되어 있지 않습니다.")
+api_key = "GOOGLE_API_KEY"
+if not api_key:
+    raise ValueError("GOOGLE_API_KEY가 .env 파일에 정의되어 있지 않습니다.")
 
-# # Google Gemini 클라이언트 초기화
-# client = genai.Client(api_key=api_key)
-
-
-# 프로젝트 ID, 리전, 시스템 지침 설정 (실제 경로 및 정보로 변경)
-project_id = "nimble-analyst-452123-t9"  # 실제 Google Cloud 프로젝트 ID
-location = "asia-northeast3-a"# "us-central1"  # 실제 Google Cloud 리전
+# Google Gemini 클라이언트 초기화
+client = genai.Client(api_key=api_key)
 
 # 시스템 지침
 SYSTEM_INSTRUCTION = """
@@ -63,7 +54,7 @@ SYSTEM_INSTRUCTION = """
    "좋습니다! 새 연락처에 대해 수집한 정보는 다음과 같습니다: [요약] 이 정보가 맞나요? 추가하거나 변경하고 싶은 내용이 있나요?"
 
 5. 상호작용 마무리:
-   정보가 정확하면 "이 연락처를 데이터베이스에 추가했습니다. 다른 명함 처리할까요?"로 응답하고, 사용자가 '네'면 다음 이미지, '아니오'면 종료합니다.
+   정보가 정확하면 추출된 연락처 정보를 데이터베이스에 Dictionary 형태로 저장을 합니다. 그 후 다른 명함 처리할까요?"로 응답하고, 사용자가 '네'면 다음 이미지, '아니오'면 종료합니다.
 
 친근한 어조를 유지하며, 사용자의 질문이나 설명 요청에 대응하세요.
 """
@@ -78,14 +69,6 @@ if 'selected_images' not in st.session_state:
 if 'image_processed' not in st.session_state:
     st.session_state.image_processed = False
 
-
-def encode_image_to_binary(image_path):
-    """이미지를 바이너리 형태로 읽어서 반환하는 함수"""
-    with open(image_path, 'rb') as f:
-        return f.read()
-
-
-
 # 채팅 메시지 표시 함수
 def display_chat():
     for message in st.session_state.chat_history:
@@ -95,42 +78,36 @@ def display_chat():
                 for img_path in message["images"]:
                     st.image(img_path, width=200)
 
-
-
-
 # Google Gemini로 응답 생성 함수 (수정됨)
 def generate_response(user_input, images=None):
-    # question = [user_input]  # 텍스트 입력 추가
-    
-    # Vertex AI 초기화
-    vertexai.init(project=project_id, location=location)
+    contents = []  # 텍스트 입력 추가
 
-    # Gemini Pro Vision 모델 로드
-    model = GenerativeModel("gemini-pro-vision")
+    # 이전 대화 기록 추가
+    for message in st.session_state.chat_history:
+        if message['role'] == 'user':
+            contents.append(f"user: {message['content']}")
+        else:
+            contents.append(f"assistant: {message['content']}")
+            
+    contents.append(f"user: {user_input}")
 
-    # Generation config 설정
-    generation_config = GenerationConfig(temperature=0.7, top_p=1, top_k=32, max_output_tokens=1000)
-
-    contents = []
-    
-    if SYSTEM_INSTRUCTION:
-        contents.append(SYSTEM_INSTRUCTION)
     
     # 이미지가 아직 처리되지 않았고, 이미지가 제공된 경우에만 포함
     if images and not st.session_state.image_processed:
         for img_path in images:
-            image_data = encode_image_to_binary(os.path.join("data", "images", img_path))
-            img_part = Part.from_data(data=image_data, mime_type="image/jpeg")
-            contents.append(img_part)  # 이미지 추가
+            img = Image.open(img_path)  # PIL Image 객체로 열기
+            contents.append(img)  # 이미지 추가
         st.session_state.image_processed = True  # 이미지 처리 완료 플래그 설정
-
-    contents.append(user_input)
     
-    response = model.generate_content(
-        contents,
-        generation_config=generation_config,
+    response = client.models.generate_content(
+        model='gemini-2.0-flash',  # 비전 모델 사용
+        contents=contents,
+        config=types.GenerateContentConfig(
+            system_instruction=SYSTEM_INSTRUCTION,  # 시스템 지침 추가
+            max_output_tokens=1000,  # 출력 토큰 제한
+            temperature=0.7,  # 응답의 창의성 조정
+        )
     )
-
     return response.text
 
 # UI 구성
