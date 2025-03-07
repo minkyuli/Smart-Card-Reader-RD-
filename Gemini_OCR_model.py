@@ -171,8 +171,8 @@ def run_tests():
 
 # 이미지 파일 경로, 프로젝트 ID, 리전, 시스템 지침 설정 (실제 경로 및 정보로 변경)
 # image_file_path = "data/images/image_1.png"  # 예시 파일명
-project_id = "nimble-analyst-452123-t9"  # 실제 Google Cloud 프로젝트 ID
-location = "us-central1"  # 실제 Google Cloud 리전
+project_id = "project_id"  # 실제 Google Cloud 프로젝트 ID
+location = "location"  # 실제 Google Cloud 리전
 system_instruction = """당신은 스마트 명함 관리 서비스를 위한 AI 어시스턴트입니다. 당신의 주요 기능은 명함 이미지를 처리하고, 인맥 만남에 대한 맥락 정보를 수집하며, 연락처 정보를 관리하는 것입니다. 다음 지침을 주의 깊게 따르세요:
 
 1. 시스템 정의:
